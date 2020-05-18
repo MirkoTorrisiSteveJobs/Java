@@ -31,10 +31,7 @@ public class Bingo {
     }
     private int drawingByLot(){
         Random rand = new Random();
-        number = rand.nextInt(board.size());
-        int choosen = board.get(number);
-        board.remove(number);
-        return choosen;
+        return board.remove(rand.nextInt(board.size()));
         }
     private boolean checkNumbers(BingoCard card, int extractNumber){
         for(int[]rows:card.getCard()){
