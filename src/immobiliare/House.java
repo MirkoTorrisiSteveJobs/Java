@@ -12,8 +12,8 @@ public class House {
         this.address = address;
         calcPrice();
     }
-    public void setFinalprice(int finalprice) {
-        this.finalprice = finalprice *this.surface;
+    public void setFinalprice(int priceForMeter) {
+        this.finalprice = priceForMeter *this.surface;
     }
     private void calcPrice(){
         if(this.distance <= 200){
