@@ -7,6 +7,7 @@ import java.util.Random;
 public class BingoCard {
     private int [][] card;
     public String name;
+    public int countPoints;
     public BingoCard(String name) {
         this.card = new int[3][9];
         this.name = name;

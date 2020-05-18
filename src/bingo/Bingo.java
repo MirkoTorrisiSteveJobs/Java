@@ -8,6 +8,11 @@ public class Bingo {
     public ArrayList<BingoCard> players = new ArrayList<BingoCard>();
     private boolean cinquina;
     public boolean bingo;
+    private boolean justOnce = false;
+    private int number;
+    private int maxCount = 0;
+    private BingoCard playerCinquina;
+
     public Bingo(int numOfPlayers) {
         this.board = generateBoard();
         for(int i =1; i <= numOfPlayers; i++){
@@ -26,15 +31,16 @@ public class Bingo {
     }
     private int drawingByLot(){
         Random rand = new Random();
-        int number = rand.nextInt(board.size());
+        number = rand.nextInt(board.size());
         int choosen = board.get(number);
         board.remove(number);
         return choosen;
         }
     private boolean checkNumbers(BingoCard card, int extractNumber){
-        for(int i = 0; i < card.getCard().length; i ++){
-            for(int number:card.getCard()[i]){
+        for(int[]rows:card.getCard()){
+            for(int number:rows){
                 if(number == extractNumber){
+                    card.countPoints++;
                     return true;
                 }
             }
@@ -42,50 +48,35 @@ public class Bingo {
         return false;
     }
     private void checkCinquina(BingoCard player){
-        for(int i = 0; i < player.getCard().length; i ++){
+        for(int[]rows:player.getCard()){
             int count = 0;
-            for(int number: player.getCard()[i]){
+            for(int number: rows){
                 if(number == 99){
                     count++;
                 }
                 if(count == 5){
                     cinquina = true;
+                    playerCinquina = player;
                 }
             }
         }
     }
     private void checkBingo(BingoCard player){
-        int count = 0;
-        for(int i = 0; i < player.getCard().length; i ++){
-            for(int number: player.getCard()[i]){
-                if(number == 99){
-                    count++;
-                }
-
-            }
-            if(count == 15){
-                bingo = true;
-            }
-        }
+      if (player.countPoints == 15){
+          bingo = true;
+          System.out.println(player.name + "\u001B[33mWON\u001B[0m");
+        };
     }
     public void playBingo(){
-        int number = drawingByLot();
-        System.out.println("Lucky number is : "+ number);
+        number = drawingByLot();
         for(BingoCard player:players){
             if(checkNumbers(player, number)){
-                System.out.println(player.name+" got it");
                 player.setNumber(number);
                 if(!cinquina){
                     checkCinquina(player);
-                    if(cinquina){
-                        System.out.println("CINQUINAAAAAAA");
-                    }
                 }
                 else{
                     checkBingo(player);
-                    if(bingo){
-                        System.out.println("BINGOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-                    }
                 }
             }
         }
@@ -93,9 +84,23 @@ public class Bingo {
 
     @Override
     public String toString() {
-        String result = "";
+        String result = "Lucky number is : \u001B[36m"+ number+"\u001B[0m";
         for(BingoCard player:players){
-            result+=player.toString();
+            if(player.countPoints >= maxCount) {
+                maxCount = player.countPoints;
+                result += player.toString();
+            }
+        }
+        if(cinquina){
+            if(!justOnce) {
+                result+= playerCinquina.toString();
+                result += "\n\u001B[33m^^^^^^^^^^^^\n!!!!!!!!!CINQUINA!!!!!\u001b[0m";
+
+                justOnce = true;
+            }
+        }
+        if(bingo){
+            result += "\n\u001B[34m!!!!BINGO!!!!!\u001B[0m";
         }
         return result;
     }

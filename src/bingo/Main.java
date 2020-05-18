@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args){
-        Bingo bingo = new Bingo(2);
+        Bingo bingo = new Bingo(500);
         Scanner scan = new Scanner(System.in);
         System.out.println("---WELCOME TO BINGO---");
         while(!bingo.bingo){
