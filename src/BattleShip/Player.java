@@ -11,13 +11,6 @@ public class Player {
         this.shots = new ArrayList<>();
         this.ships = new ArrayList<>();
     }
-    public void removeShip(){
-        for(Ship ship : ships){
-            if(ship.shipGone()){
-                ships.remove(ship);
-            }
-        }
-    }
     public void loadShip(Ship ship){
         this.ships.add(ship);
     }

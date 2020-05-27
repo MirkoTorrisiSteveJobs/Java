@@ -1,12 +1,11 @@
 package BattleShip;
 
-import java.lang.reflect.Array;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args){
-        int size = 6;
+        int size = 10;
         BattleShip battle = new BattleShip(size);
         Random random = new Random();
         Scanner scan = new Scanner(System.in);
@@ -14,7 +13,7 @@ public class Main {
         int count = 1;
         while(count < 5){
             int[] arrayForShip = new int[2];
-            System.out.println("insert start coordinats for ship with length"+(count)+"(it will extend right or down)");
+            System.out.println("insert start coordinates for ship with length"+(count)+"(it will extend right or down)");
             System.out.println("x: ");
             arrayForShip[0] = Integer.parseInt(scan.nextLine());
             System.out.println("y:");
