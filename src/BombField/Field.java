@@ -6,13 +6,18 @@ import java.util.Collections;
 public class Field {
     private Box[][] field;
     private int size;
+    public boolean gameOver = false;
 
     public Field(int size) {
         this.size = size;
         this.field = setField(this.size);
         setBoxes();
     }
-
+    public void checkBomb(int x, int y){
+        if(this.field[x][y].getValue() == -1){
+            this.gameOver = true;
+        }
+    }
     private Box[][] setField(int size) {
         ArrayList<Box> container = generateField(size);
         Collections.shuffle(container);
@@ -60,84 +65,170 @@ public class Field {
         for(int i = 0; i < this.field.length; i++){
             for(int j = 0; j < this.field[i].length; j++){
                 int count = 0;
-                if(this.field[i][j].getValue()!= 0){
+                if(this.field[i][j].getValue()!= -1){
                 try {
                     if (this.field[i - 1][j - 1].getValue() == -1) {
                         count++;
                     }
+                }
+                catch (Exception e){ }
+                try {
                     if (this.field[i - 1][j].getValue() == -1) {
                         count++;
                     }
+                }
+                catch (Exception e){  }
+                try {
                     if (this.field[i - 1][j + 1].getValue() == -1) {
                         count++;
                     }
+                }
+                catch (Exception e){  }
+                try {
                     if (this.field[i][j - 1].getValue() == -1) {
                         count++;
                     }
+                }
+                catch (Exception e){  }
+                try {
                     if (this.field[i][j + 1].getValue() == -1) {
                         count++;
                     }
+                }
+                catch (Exception e){  }
+
+                try {
                     if (this.field[i + 1][j - 1].getValue() == -1) {
                         count++;
                     }
+                }
+                catch (Exception e) {
+                }
+                try {
                     if (this.field[i + 1][j].getValue() == -1) {
                         count++;
                     }
+                }
+                catch (Exception e) {
+                }
+                try{
                     if (this.field[i + 1][j + 1].getValue() == -1) {
                         count++;
                     }
                 }
-                catch (Exception e){
-                    continue;
-                }
+                catch (Exception e){    }
                 this.field[i][j].setValue(count);
-            }
+                }
             }
         }
 
         }
+        public void uncoverBox(int x, int y){
+            this.field[x][y].setCover(false);
+            if(this.field[x][y].getValue() == 0){
+                try {
+                    if (this.field[x - 1][y- 1].getValue() != -1 && this.field[x - 1][y- 1].isCover()) {
+                        this.field[x - 1][y- 1].setCover(false);
+                        uncoverBox(x-1,y-1);
+                    }
+                }
+                catch (Exception e){ }
+                try {
+                    if (this.field[x - 1][y].getValue() != -1 && this.field[x - 1][y].isCover()) {
+                        this.field[x - 1][y].setCover(false);
+                        uncoverBox(x-1,y);
+                    }
+                }
+                catch (Exception e){  }
+                try {
+                    if (this.field[x - 1][y+ 1].getValue() != -1 && this.field[x - 1][y+ 1].isCover()) {
+                        this.field[x - 1][y+1].setCover(false);
+                        uncoverBox(x-1,y+1);
+                    }
+                }
+                catch (Exception e){  }
+                try {
+                    if (this.field[x][y- 1].getValue() != -1 && this.field[x][y- 1].isCover()) {
+                        this.field[x][y-1].setCover(false);
+                        uncoverBox(x,y-1);
+                    }
+                }
+                catch (Exception e){  }
+                try {
+                    if (this.field[x][y+ 1].getValue() != -1 && this.field[x][y+ 1].isCover()) {
+                        this.field[x][y+1].setCover(false);
+                        uncoverBox(x,y+1);
+                    }
+                }
+                catch (Exception e){  }
+
+                try {
+                    if (this.field[x+1][y-1].getValue() != -1 && this.field[x+1][y-1].isCover()) {
+                        this.field[x+1][y-1].setCover(false);
+                        uncoverBox(x+1,y-1);
+                    }
+                }
+                catch (Exception e) {
+                }
+                try {
+                    if (this.field[x + 1][y].getValue() != -1 && this.field[x+1][y].isCover()) {
+                        this.field[x+1][y].setCover(false);
+                        uncoverBox(x+1,y);
+                    }
+                }
+                catch (Exception e) {
+                }
+                try{
+                    if (this.field[x + 1][y + 1].getValue() != -1 && this.field[x+1][y+1].isCover()) {
+                        this.field[x+1][y+1].setCover(false);
+                        uncoverBox(x+1,y+1);
+                    }
+                }
+                catch (Exception e){    }
+            }
+        }
+    public void showBombs(){
+        for(Box[] arr:this.field){
+            for(Box box: arr){
+                if(box.getValue() == -1){
+                    box.setCover(false);
+                }
+            }
+        }
+    }
     public String toString(){
         String result = "";
         for(Box [] box : this.field){
             result+="\n";
             for(Box item : box){
-                /*
-                if(item.getValue() == -1){
-                    result+= "\u001B[31m\uD83D\uDCA5\u001B[0m";
+                if(item.isCover()){
+                    result+=" \u001B[34m\uD83C\uDF0A\u001B[0m";
                 }
-                else if (item.getValue() == 0){
-                    result+="\u001B[33m\uD83D\uDCA5\u001B[0m";
+                else {
+                    if (item.getValue() == -1) {
+                        result += " \u001B[31m\uD83D\uDCA5\u001B[0m";
+                    } else if (item.getValue() == 0) {
+                        result += "\u001B[33m[" + item.getValue() + "]\u001B[0m";
+                    } else if (item.getValue() == 1) {
+                        result += "\u001B[34m[" + item.getValue() + "]\u001B[0m";
+                    } else if (item.getValue() == 2) {
+                        result += "\u001B[35m[" + item.getValue() + "]\u001B[0m";
+                    } else if (item.getValue() == 3) {
+                        result += "\u001B[36m[" + item.getValue() + "]\u001B[0m";
+                    } else if (item.getValue() == 4) {
+                        result += "\u001B[37m[" + item.getValue() + "]\u001B[0m";
+                    } else if (item.getValue() == 5) {
+                        result += "\u001B[38m[" + item.getValue() + "]\u001B[0m";
+                    } else if (item.getValue() == 6) {
+                        result += "\u001B[39m[" + item.getValue() + "]\u001B[0m";
+                    } else if (item.getValue() == 7) {
+                        result += "\u001B[30m[" + item.getValue() + "]\u001B[0m";
+                    } else if (item.getValue() == 8) {
+                        result += "\u001B[29m[" + item.getValue() + "]\u001B[0m";
+                    } else {
+                        result += item.getValue();
+                    }
                 }
-                else if (item.getValue() == 1){
-                    result+="\u001B[34m\uD83D\uDCA5\u001B[0m";
-                }
-                else if (item.getValue() == 2){
-                    result+="\u001B[35m\uD83D\uDCA5\u001B[0m";
-                }
-                else if (item.getValue() == 3){
-                    result+="\u001B[36m\uD83D\uDCA5\u001B[0m";
-                }
-                else if (item.getValue() == 4){
-                    result+="\u001B[37m\uD83D\uDCA5\u001B[0m";
-                }
-                else if (item.getValue() == 5){
-                    result+="\u001B[38m\uD83D\uDCA5\u001B[0m";
-                }
-                else if (item.getValue() == 6){
-                    result+="\u001B[39m\uD83D\uDCA5\u001B[0m";
-                }
-                else if (item.getValue() == 7){
-                    result+="\u001B[30m\uD83D\uDCA5\u001B[0m";
-                }
-                else if (item.getValue() == 8){
-                    result+="\u001B[29m\uD83D\uDCA5\u001B[0m";
-                }
-                else{
-                    result+=item.getValue();
-                }
-
-                 */
-                result+=item.getValue();
             }
         }
         return result;

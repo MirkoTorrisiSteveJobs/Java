@@ -2,7 +2,7 @@ package BombField;
 
 public class Box {
     private int value;
-    private boolean cover;
+    private boolean cover = true;
     public Box(int value){
         this.value = value;
     }
