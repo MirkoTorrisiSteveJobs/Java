@@ -65,58 +65,16 @@ public class Field {
         for(int i = 0; i < this.field.length; i++){
             for(int j = 0; j < this.field[i].length; j++){
                 int count = 0;
+                int[][] directions = {{i - 1,j - 1},{i - 1,j},{i - 1,j + 1},{i,j - 1},{i,j + 1},{i + 1,j - 1},{i + 1,j},{i + 1,j + 1}};
                 if(this.field[i][j].getValue()!= -1){
-                try {
-                    if (this.field[i - 1][j - 1].getValue() == -1) {
-                        count++;
+                    for(int[]direction:directions){
+                        try {
+                            if (this.field[direction[0]][direction[1]].getValue() == -1) {
+                                count++;
+                            }
+                        }
+                        catch (Exception e){ }
                     }
-                }
-                catch (Exception e){ }
-                try {
-                    if (this.field[i - 1][j].getValue() == -1) {
-                        count++;
-                    }
-                }
-                catch (Exception e){  }
-                try {
-                    if (this.field[i - 1][j + 1].getValue() == -1) {
-                        count++;
-                    }
-                }
-                catch (Exception e){  }
-                try {
-                    if (this.field[i][j - 1].getValue() == -1) {
-                        count++;
-                    }
-                }
-                catch (Exception e){  }
-                try {
-                    if (this.field[i][j + 1].getValue() == -1) {
-                        count++;
-                    }
-                }
-                catch (Exception e){  }
-
-                try {
-                    if (this.field[i + 1][j - 1].getValue() == -1) {
-                        count++;
-                    }
-                }
-                catch (Exception e) {
-                }
-                try {
-                    if (this.field[i + 1][j].getValue() == -1) {
-                        count++;
-                    }
-                }
-                catch (Exception e) {
-                }
-                try{
-                    if (this.field[i + 1][j + 1].getValue() == -1) {
-                        count++;
-                    }
-                }
-                catch (Exception e){    }
                 this.field[i][j].setValue(count);
                 }
             }
@@ -126,65 +84,16 @@ public class Field {
         public void uncoverBox(int x, int y){
             this.field[x][y].setCover(false);
             if(this.field[x][y].getValue() == 0){
-                try {
-                    if (this.field[x - 1][y- 1].getValue() != -1 && this.field[x - 1][y- 1].isCover()) {
-                        this.field[x - 1][y- 1].setCover(false);
-                        uncoverBox(x-1,y-1);
+                int[][] directions = {{x - 1,y - 1},{x - 1,y},{x - 1,y + 1},{x,y - 1},{x,y + 1},{x + 1,y - 1},{x + 1,y},{x + 1,y + 1}};
+                for(int[]direction:directions) {
+                    try {
+                        if (this.field[direction[0]][direction[1]].getValue() != -1 && this.field[direction[0]][direction[1]].isCover()) {
+                            this.field[direction[0]][direction[1]].setCover(false);
+                            uncoverBox(direction[0], direction[1]);
+                        }
+                    } catch (Exception e) {
                     }
                 }
-                catch (Exception e){ }
-                try {
-                    if (this.field[x - 1][y].getValue() != -1 && this.field[x - 1][y].isCover()) {
-                        this.field[x - 1][y].setCover(false);
-                        uncoverBox(x-1,y);
-                    }
-                }
-                catch (Exception e){  }
-                try {
-                    if (this.field[x - 1][y+ 1].getValue() != -1 && this.field[x - 1][y+ 1].isCover()) {
-                        this.field[x - 1][y+1].setCover(false);
-                        uncoverBox(x-1,y+1);
-                    }
-                }
-                catch (Exception e){  }
-                try {
-                    if (this.field[x][y- 1].getValue() != -1 && this.field[x][y- 1].isCover()) {
-                        this.field[x][y-1].setCover(false);
-                        uncoverBox(x,y-1);
-                    }
-                }
-                catch (Exception e){  }
-                try {
-                    if (this.field[x][y+ 1].getValue() != -1 && this.field[x][y+ 1].isCover()) {
-                        this.field[x][y+1].setCover(false);
-                        uncoverBox(x,y+1);
-                    }
-                }
-                catch (Exception e){  }
-
-                try {
-                    if (this.field[x+1][y-1].getValue() != -1 && this.field[x+1][y-1].isCover()) {
-                        this.field[x+1][y-1].setCover(false);
-                        uncoverBox(x+1,y-1);
-                    }
-                }
-                catch (Exception e) {
-                }
-                try {
-                    if (this.field[x + 1][y].getValue() != -1 && this.field[x+1][y].isCover()) {
-                        this.field[x+1][y].setCover(false);
-                        uncoverBox(x+1,y);
-                    }
-                }
-                catch (Exception e) {
-                }
-                try{
-                    if (this.field[x + 1][y + 1].getValue() != -1 && this.field[x+1][y+1].isCover()) {
-                        this.field[x+1][y+1].setCover(false);
-                        uncoverBox(x+1,y+1);
-                    }
-                }
-                catch (Exception e){    }
             }
         }
     public void showBombs(){
