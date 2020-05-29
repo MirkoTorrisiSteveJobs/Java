@@ -13,10 +13,28 @@ public class Field {
         this.field = setField(this.size);
         setBoxes();
     }
-    public void checkBomb(int x, int y){
+    public boolean checkBomb(int x, int y){
         if(this.field[x][y].getValue() == -1){
             this.gameOver = true;
+            return true;
         }
+        return false;
+    }
+    public boolean checkWin(){
+        boolean win = false;
+        for(Box[]row :field){
+            for(Box box:row){
+                if(box.getValue() != -1){
+                    if(!box.isCover()){
+                        win = true;
+                    }
+                    else{
+                        win = false;
+                    }
+                }
+            }
+        }
+        return win;
     }
     private Box[][] setField(int size) {
         ArrayList<Box> container = generateField(size);
@@ -80,22 +98,21 @@ public class Field {
             }
         }
 
-        }
-        public void uncoverBox(int x, int y){
-            this.field[x][y].setCover(false);
-            if(this.field[x][y].getValue() == 0){
-                int[][] directions = {{x - 1,y - 1},{x - 1,y},{x - 1,y + 1},{x,y - 1},{x,y + 1},{x + 1,y - 1},{x + 1,y},{x + 1,y + 1}};
-                for(int[]direction:directions) {
-                    try {
-                        if (this.field[direction[0]][direction[1]].getValue() != -1 && this.field[direction[0]][direction[1]].isCover()) {
-                            this.field[direction[0]][direction[1]].setCover(false);
-                            uncoverBox(direction[0], direction[1]);
-                        }
-                    } catch (Exception e) {
+    }
+    public void uncoverBox(int x, int y){
+        this.field[x][y].setCover(false);
+        if(this.field[x][y].getValue() == 0){
+            int[][] directions = {{x - 1,y - 1},{x - 1,y},{x - 1,y + 1},{x,y - 1},{x,y + 1},{x + 1,y - 1},{x + 1,y},{x + 1,y + 1}};
+            for(int[]direction:directions) {
+                try {
+                    if (this.field[direction[0]][direction[1]].getValue() != -1 && this.field[direction[0]][direction[1]].isCover()) {
+                        this.field[direction[0]][direction[1]].setCover(false);
+                        uncoverBox(direction[0], direction[1]);
                     }
-                }
+                } catch (Exception e) { }
             }
         }
+    }
     public void showBombs(){
         for(Box[] arr:this.field){
             for(Box box: arr){
@@ -114,32 +131,18 @@ public class Field {
                     result+=" \u001B[34m\uD83C\uDF0A\u001B[0m";
                 }
                 else {
-                    if (item.getValue() == -1) {
-                        result += " \u001B[31m\uD83D\uDCA5\u001B[0m";
-                    } else if (item.getValue() == 0) {
-                        result += "\u001B[33m[" + item.getValue() + "]\u001B[0m";
-                    } else if (item.getValue() == 1) {
-                        result += "\u001B[34m[" + item.getValue() + "]\u001B[0m";
-                    } else if (item.getValue() == 2) {
-                        result += "\u001B[35m[" + item.getValue() + "]\u001B[0m";
-                    } else if (item.getValue() == 3) {
-                        result += "\u001B[36m[" + item.getValue() + "]\u001B[0m";
-                    } else if (item.getValue() == 4) {
-                        result += "\u001B[37m[" + item.getValue() + "]\u001B[0m";
-                    } else if (item.getValue() == 5) {
-                        result += "\u001B[38m[" + item.getValue() + "]\u001B[0m";
-                    } else if (item.getValue() == 6) {
-                        result += "\u001B[39m[" + item.getValue() + "]\u001B[0m";
-                    } else if (item.getValue() == 7) {
-                        result += "\u001B[30m[" + item.getValue() + "]\u001B[0m";
-                    } else if (item.getValue() == 8) {
-                        result += "\u001B[29m[" + item.getValue() + "]\u001B[0m";
-                    } else {
-                        result += item.getValue();
+                    result += item.toString();
                     }
                 }
             }
-        }
         return result;
+    }
+
+    public Box[][] getField() {
+        return field;
+    }
+
+    public int getSize() {
+        return size;
     }
 }
