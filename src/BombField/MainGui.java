@@ -69,10 +69,12 @@ public class MainGui extends Application{
                             field.uncoverBox(x, y);
                             if (field.checkBomb(x, y)) {
                                 field.showBombs();
+                                grid.setStyle("-fx-background-color: red; -fx-text-fill: white;");
+                                stage.setScene(refresh(stage));
                                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                                 alert.setTitle("");
                                 alert.setHeaderText("HAI PERSO :)");
-                                grid.setStyle("-fx-background-color: red; -fx-text-fill: white;");
+
                                 alert.setContentText("Do you want to play again?");
                                 Optional<ButtonType> result = alert.showAndWait();
                                 if(!result.isPresent() || result.get() == ButtonType.CANCEL){
