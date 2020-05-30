@@ -26,10 +26,10 @@ public class Box {
             return "\uD83D\uDCA5";
         }
         else if(this.value == 0){
-            return "  ";
+            return "   ";
         }
         else {
-            return String.valueOf(this.value);
+            return String.valueOf(this.value)+" ";
         }
     }
 }

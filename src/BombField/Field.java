@@ -21,20 +21,21 @@ public class Field {
         return false;
     }
     public boolean checkWin(){
-        boolean win = false;
+        int count = 0;
+        int bombCount = 0;
         for(Box[]row :field){
             for(Box box:row){
                 if(box.getValue() != -1){
                     if(!box.isCover()){
-                        win = true;
+                        count++;
                     }
-                    else{
-                        win = false;
-                    }
+                }
+                else{
+                    bombCount++;
                 }
             }
         }
-        return win;
+        return count == this.size*this.size-bombCount;
     }
     private Box[][] setField(int size) {
         ArrayList<Box> container = generateField(size);

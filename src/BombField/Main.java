@@ -26,6 +26,9 @@ public class Main {
             field.uncoverBox(x,y);
             System.out.println(field.toString());
             field.checkBomb(x,y);
+            if(field.checkWin()){
+                System.out.println("HAI VINTO!!!");
+            }
         }
         field.showBombs();
         System.out.println(field.toString());
