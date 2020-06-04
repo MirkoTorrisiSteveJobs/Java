@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MainRubric {
-    static String file = "C:\\Users\\Mirko\\Desktop\\rubrica2.csv";
+    static String file = "C:\\Users\\User\\Desktop\\rubrica2.csv";
     static Rubric rubric = new Rubric();
 
     public static void main(String[] args) {

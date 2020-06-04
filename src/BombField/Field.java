@@ -106,7 +106,7 @@ public class Field {
             int[][] directions = {{x - 1,y - 1},{x - 1,y},{x - 1,y + 1},{x,y - 1},{x,y + 1},{x + 1,y - 1},{x + 1,y},{x + 1,y + 1}};
             for(int[]direction:directions) {
                 try {
-                    if (this.field[direction[0]][direction[1]].getValue() != -1 && this.field[direction[0]][direction[1]].isCover()) {
+                    if (this.field[direction[0]][direction[1]].isCover()) {
                         this.field[direction[0]][direction[1]].setCover(false);
                         uncoverBox(direction[0], direction[1]);
                     }

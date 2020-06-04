@@ -4,7 +4,9 @@ package BattleShip;
 public class BattleShip {
     Player player;
     Player opp;
+    private int size;
     BattleShip(int size){
+        this.size = size;
         this.player = new Player(size);
         this.opp = new Player(size);
     }
@@ -86,6 +88,11 @@ public class BattleShip {
         }
         return true;
     }
+
+    public int getSize() {
+        return size;
+    }
+
     public String toString(){
         String result="";
         for(int i = 0; i < opp.getGrid().length; i ++) {
@@ -122,4 +129,5 @@ public class BattleShip {
         }
         return result;
     }
+
 }
