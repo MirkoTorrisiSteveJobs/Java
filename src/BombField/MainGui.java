@@ -148,6 +148,6 @@ public class MainGui extends Application{
     public void start(Stage stage) {
         stage.setScene(refresh(stage));
         stage.show();
-        }
     }
+}
 

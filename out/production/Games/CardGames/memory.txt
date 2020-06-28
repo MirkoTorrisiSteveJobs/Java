@@ -1,0 +1,10 @@
+zequila,0
+greggio,1
+iacchetti,2
+bossetti,3
+pappalardo,4
+amadeus,5
+giurato,6
+scotti,7
+pedro,8
+fazio,9
