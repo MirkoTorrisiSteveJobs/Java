@@ -21,7 +21,6 @@ import java.util.Optional;
 public class Memory extends Application {
     private boolean gameOver = false;
     private int attempt;
-    private int points;
     private Deck deck1 = new Deck(10);
     private Deck deck2 = new Deck(10);
     private Deck deck3 = new Deck(20);
@@ -107,9 +106,9 @@ public class Memory extends Application {
 
 
     private Text genPoints(){
-        Text points = new Text();
-        points.setText(String.valueOf(this.attempt));
-        return points;
+        Text attempts = new Text();
+        attempts.setText(String.valueOf(this.attempt));
+        return attempts;
     }
 
     private Scene refresh(Stage stage) {
@@ -117,24 +116,24 @@ public class Memory extends Application {
         grid.setPadding(new Insets(5));
         grid.setHgap(5);
         grid.setVgap(5);
-        int countCol = 0;
+        int countCol = -1;
         int row = 0;
 
         for (int r = 0; r < deck3.getCard().size(); r++) {
-                final int x = r;
                 if (!(deck3.getCard().get(r).isFolded())) {
                     Button button = new Button("\uD83C\uDF0A");
                     button.setStyle("-fx-text-fill:darkslateblue;-fx-font-weight: bold;");
                     button.setMinHeight(100);
                     button.setMinWidth(80);
+                    int finalR = r;
                     button.setOnAction(e -> {
                         this.attempt++;
-                        deck3.getCard().get(x).unFold();
+                        deck3.getCard().get(finalR).unFold();
                         stage.setScene(refresh(stage));
                         checkEquals();
                         countUnfolded();
                     });
-                    if(countCol < 6) {
+                    if(countCol < 4) {
                         countCol++;
                     }
                     else {
@@ -180,7 +179,7 @@ public class Memory extends Application {
                         default:
                             button = new Button();
                     }
-                    if(countCol < 6) {
+                    if(countCol < 4) {
                         countCol++;
                     }
                     else {
